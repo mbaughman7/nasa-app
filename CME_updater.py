@@ -41,7 +41,7 @@ def generate_cme_list():
                 impact_time = item["cmeAnalyses"][0]["enlilList"][0]["estimatedShockArrivalTime"]
                 clean_time_date = impact_time.split("T")[0]
                 clean_time = impact_time.split("T")[1].split("Z")[0]
-                entry = f"CME identified as {name} will impact earth on {clean_time_date} at approx {clean_time}"
+                entry = f"CME identified as {name} will impact earth on {clean_time_date} at approx {clean_time} UTC."
                 new_list.append(entry)
     print("all done creating new CME list")
 
@@ -88,9 +88,6 @@ def display_cme_list():
         my_string += f"{item}\n\n"
     messagebox.showinfo(message=my_string)
 
-
-
-
 #---------------------------------------CREATE GUI-------------------------------------------------------------
 
 window = Tk()
@@ -113,5 +110,3 @@ display_list_button.grid(column=1,row=2,sticky="e")
 
 
 window.mainloop()
-
-
