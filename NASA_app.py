@@ -4,9 +4,12 @@ from tkinter import *
 from tkinter import messagebox
 # from nasa_data import data
 
+
+#=========================CME_UPDATER=======================================================
+
 #-------------------------DATA RETRIEVAL FROM API--------------------------------------------
-def retrieve_data():
-    response = requests.get("https://api.nasa.gov/DONKI/CME?api_key=DEMO_KEY")
+def retrieve_data(api_url):
+    response = requests.get(api_url) #"https://api.nasa.gov/DONKI/CME?api_key=DEMO_KEY"
     code = response.status_code
     print(f"GET request sent.  status code of {code} returned")
 
@@ -21,7 +24,7 @@ def retrieve_data():
 
 def generate_cme_list():
 
-    data = retrieve_data()
+    data = retrieve_data("https://api.nasa.gov/DONKI/CME?api_key=DEMO_KEY")
     #FOR TROUBLESHOOTING
     print("data retrieved")
     print(data)
@@ -41,7 +44,7 @@ def generate_cme_list():
                 impact_time = item["cmeAnalyses"][0]["enlilList"][0]["estimatedShockArrivalTime"]
                 clean_time_date = impact_time.split("T")[0]
                 clean_time = impact_time.split("T")[1].split("Z")[0]
-                entry = f"CME identified as {name} will impact earth on {clean_time_date} at approx {clean_time}"
+                entry = f"CME identified as {name} will impact earth on {clean_time_date} at approx {clean_time} UTC."
                 new_list.append(entry)
     print("all done creating new CME list")
 
@@ -51,7 +54,6 @@ def generate_cme_list():
     #     print(i)
 
 #-------------------------------------------------------------------------------------------------------------
-
 
 
 #----------------OPEN/GENERATE CME TEXT FILE--READ CMEs FROM IT--UPDATE FILE WITH CMEs NOT ALREADY PRESENT----
@@ -87,6 +89,16 @@ def display_cme_list():
     for item in cme_list:
         my_string += f"{item}\n\n"
     messagebox.showinfo(message=my_string)
+#=====================================END OF CME UPDATER==============================================
+
+
+
+#---------------------MESSAGEBOX FUNCTION FOR DISPLAY DAILY PIC-------------------------------
+def display_link():
+    data = retrieve_data("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY")
+    my_link=data["url"]
+    print(my_link)
+    messagebox.showinfo(message=my_link)
 
 
 
@@ -94,24 +106,34 @@ def display_cme_list():
 #---------------------------------------CREATE GUI-------------------------------------------------------------
 
 window = Tk()
-window.title("NASA CME UPDATES")
+window.title("NASA UPDATES")
 window.config(padx=20, pady=20)
 
-cme_image = PhotoImage(file="cme_image.png")
-canvas = Canvas(width=200, height=200)
-canvas.create_image(100,100,image=cme_image)
-canvas.grid(columnspan=2,row=1)
 
-title = Label(text = "CME Updates", font = ("Courier",40,"bold"))
+#------------------------------cme stuff---------------------------------------------------
+cme_image = PhotoImage(file="cme_image.png")
+sun_canvas = Canvas(width=100, height=100)
+sun_canvas.create_image(50,50,image=cme_image)
+sun_canvas.grid(column=0,row=1,sticky="w")
+
+title = Label(text = "NASA STUFF", font = ("Courier",40,"bold"))
 title.grid(columnspan=2,row=0)
 
-generate_file = Button(text="Generate text file",command = update_text_file)
-generate_file.grid(columnspan=2,row=2,sticky="w")
+display_list_button = Button(text = "Display CMEs",command = display_cme_list,width=13)
+display_list_button.grid(column=0,row=2,sticky="w")
 
-display_list_button = Button(text = "Display CMEs",command = display_cme_list)
-display_list_button.grid(column=1,row=2,sticky="e")
+generate_file = Button(text="Generate text file",command = update_text_file)
+generate_file.grid(column=0,row=3,sticky="w")
+#--------------------------------------------------------------------------------------------
+
+#------------------------------daily pic-----------------------------------------------------
+pic_canvas = Canvas(width=100,height=100,background="green")
+pic_canvas.grid(column=1,row=1,sticky="e")
+
+display_pic_link = Button(text = "Display link",command = display_link,width=13)
+display_pic_link.grid(column=1,row=2,sticky="e")
+
+
 
 
 window.mainloop()
-
-
