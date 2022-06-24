@@ -2,14 +2,15 @@ import requests
 from datetime import datetime
 from tkinter import *
 from tkinter import messagebox
-# from nasa_data import data
 
 
+CME_ENDPOINT = "https://api.nasa.gov/DONKI/CME?api_key=DEMO_KEY"
+PIC_OF_DAY_ENDPOINT = "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY"
 #=========================CME_UPDATER=======================================================
 
 #-------------------------DATA RETRIEVAL FROM API--------------------------------------------
 def retrieve_data(api_url):
-    response = requests.get(api_url) #"https://api.nasa.gov/DONKI/CME?api_key=DEMO_KEY"
+    response = requests.get(api_url)
     code = response.status_code
     print(f"GET request sent.  status code of {code} returned")
 
@@ -24,7 +25,7 @@ def retrieve_data(api_url):
 
 def generate_cme_list():
 
-    data = retrieve_data("https://api.nasa.gov/DONKI/CME?api_key=DEMO_KEY")
+    data = retrieve_data(CME_ENDPOINT)
     #FOR TROUBLESHOOTING
     print("data retrieved")
     print(data)
@@ -95,7 +96,7 @@ def display_cme_list():
 
 #---------------------MESSAGEBOX FUNCTION FOR DISPLAY DAILY PIC-------------------------------
 def display_link():
-    data = retrieve_data("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY")
+    data = retrieve_data(PIC_OF_DAY_ENDPOINT)
     my_link=data["url"]
     print(my_link)
     messagebox.showinfo(message=my_link)
