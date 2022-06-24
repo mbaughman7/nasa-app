@@ -1,2 +1,2 @@
-# my_projects
+# NASA API fun
 This repository contains the NASA program I'm working on, as well as related image files.  The CME_updater program prompts a NASA API to return data on the 10 most recently discovered coronal mass ejections.  The NASA app is this program plus an additional function that returns the link to NASA's picture of the day.  Right now, that link is only readable (not copyable or followable) in the text window that pops up.  However, the link is also printed to the console and is available for following there.  
