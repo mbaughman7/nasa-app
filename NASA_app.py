@@ -64,19 +64,25 @@ def update_text_file():
     try:
         with open("CME_events.txt",'r') as my_file:
             cme_events = my_file.readlines()
+            print("about to print contents of file...")
+            print(cme_events)
             ### FOR TROUBLESHOOTING
             # for line in cme_events:
             #     print(f"this is from file: {line}")
     except FileNotFoundError:
+        print("file not found.  generating file...")
         with open("CME_events.txt", 'w') as my_file:
             my_file.write("")
             cme_events = []
 
-    with open("CME_events.txt",'w') as my_file:
+    with open("CME_events.txt",'a') as my_file:
         for item in cme_list:
-            if item in cme_events:
+            list_item = item + '\n'
+            if list_item in cme_events:
+                print("skipping")
                 continue
-            my_file.write(f"{item}\n")
+            else:
+                my_file.write(f"{item}\n")
             # my_file.write('%s\n' % item)
             print(item)
 #--------------------------------------------------------------------------------------------------------------
