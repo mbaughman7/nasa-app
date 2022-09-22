@@ -1,6 +1,6 @@
 import requests
 from datetime import datetime
-from tkinter import *
+import tkinter as tk
 from tkinter import messagebox
 
 
@@ -31,7 +31,7 @@ def generate_cme_list():
     print(data)
 
     new_list = []
-
+    
     for item in data:
         try:
             earth_hit = item["cmeAnalyses"][0]["enlilList"][0]["estimatedShockArrivalTime"]
@@ -112,32 +112,34 @@ def display_link():
 
 #---------------------------------------CREATE GUI-------------------------------------------------------------
 
-window = Tk()
+window = tk.Tk()
 window.title("NASA UPDATES")
 window.config(padx=20, pady=20)
 
 
 #------------------------------cme stuff---------------------------------------------------
-cme_image = PhotoImage(file="cme_image.png")
-sun_canvas = Canvas(width=100, height=100)
+cme_image = tk.PhotoImage(file="cme_image.png")
+sun_canvas = tk.Canvas(width=100, height=100)
 sun_canvas.create_image(50,50,image=cme_image)
 sun_canvas.grid(column=0,row=1,sticky="w")
 
-title = Label(text = "NASA STUFF", font = ("Courier",40,"bold"))
+title = tk.Label(text = "NASA STUFF", font = ("Courier",40,"bold"))
 title.grid(columnspan=2,row=0)
 
-display_list_button = Button(text = "Display CMEs",command = display_cme_list,width=13)
+display_list_button = tk.Button(text = "Display CMEs",command = display_cme_list,width=13)
 display_list_button.grid(column=0,row=2,sticky="w")
 
-generate_file = Button(text="Generate text file",command = update_text_file)
+generate_file = tk.Button(text="Generate text file",command = update_text_file)
 generate_file.grid(column=0,row=3,sticky="w")
 #--------------------------------------------------------------------------------------------
 
 #------------------------------daily pic-----------------------------------------------------
-pic_canvas = Canvas(width=100,height=100,background="green")
+picod_image = tk.PhotoImage(file="picod_img.png")
+pic_canvas = tk.Canvas(width=100,height=100,background="green")
+pic_canvas.create_image(50,50,image=picod_image)
 pic_canvas.grid(column=1,row=1,sticky="e")
 
-display_pic_link = Button(text = "Display link",command = display_link,width=13)
+display_pic_link = tk.Button(text = "Display link",command = display_link,width=13)
 display_pic_link.grid(column=1,row=2,sticky="e")
 
 
